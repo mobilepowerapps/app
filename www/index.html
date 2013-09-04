@@ -48,7 +48,7 @@
 //	returns
 //		"/assets/www/workout.mp4" etc
 
-function mediaCache( f ) {
+function mediaCache( f, cb ) {
 	var url = "http://cpt.aws.af.cm/" + f ;
 // get persistent path
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
@@ -64,10 +64,10 @@ function mediaCache( f ) {
 					console.log("Download Err: "+ url);
 					});
 				// return get it from server
-				return url ;
+				cb( url );
 			} else {
 				// Otherwise the file that exists
-				return fileName ;
+				cb( fileName ) ;
 			}         
 		};
 		reader.readAsDataURL(fileName);
@@ -77,9 +77,9 @@ function mediaCache( f ) {
 }
 
 function test( file ) {
-	alert("test") ;
+	alert("test: "+file) ;
 	try {
-		alert( "mediaCache="+mediaCache( file ) ) ;
+		mediaCache( file, function(f) { alert("mediaCache="+f ); });
 	} catch (e ) {
 		alert("err: "+e);
 		var y=document.getElementById("mess");
