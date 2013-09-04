@@ -40,6 +40,11 @@
 		
         </script>
 <script>
+function consolelog( msg ) {
+	var y=document.getElementById("mess");
+	y.innerHTML= y.innerHTML+ "<br>Msg: " + e + ".";
+
+}
 
 //
 //	Phonegap load thru cache
@@ -59,9 +64,9 @@ function mediaCache( f, cb ) {
 				// not saved so try to get it
 				var fileTransfer = new FileTransfer();
 				fileTransfer.download(url, mediaPath, function (entry) {
-					console.log("Download: "+ entry.fullPath);
+					consolelog("Download: "+ entry.fullPath);
 				}, function (error) {
-					console.log("Download Err: "+ url);
+					consolelog("Download Err: "+ url);
 					});
 				// return get it from server
 				cb( url );
@@ -81,9 +86,7 @@ function test( file ) {
 	try {
 		mediaCache( file, function(f) { alert("mediaCache="+f ); });
 	} catch (e ) {
-		alert("err: "+e);
-		var y=document.getElementById("mess");
-		y.innerHTML= y.innerHTML+ "<br>Error: " + e + ".";
+		consolelog("Err: "+e);
 	};
 }
 
