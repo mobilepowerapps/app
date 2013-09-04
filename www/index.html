@@ -40,6 +40,7 @@
 		
         </script>
 <script>
+
 //
 //	Phonegap load thru cache
 //	call
@@ -76,15 +77,23 @@ function mediaCache( f ) {
 }
 
 function test( file ) {
-	alert( "mediaCache="+mediaCache( file ) ) ;
+	alert("test") ;
+	try {
+		alert( "mediaCache="+mediaCache( file ) ) ;
+	} catch (e ) {
+		alert("err: "+e);
+		var y=document.getElementById("mess");
+		y.innerHTML= y.innerHTML+ "<br>Error: " + e + ".";
+	};
 }
 
 </script>
 
 Hello there<br>
-<button onclick="mediaCache('hooray.mp3');">Load hooray.mp3</button><br>
-<button onclick="mediaCache('workout.mp4');">Load workout.mp4</button><br>
-<button onclick="mediaCache('jnk.mp3');">Load jnk.mp3</button><br>
+<button onclick="test('hooray.mp3');">Load hooray.mp3</button><br>
+<button onclick="test('workout.mp4');">Load workout.mp4</button><br>
+<button onclick="test('jnk.mp3');">Load jnk.mp3</button><br>
+<p id="mess"></p>
 		
 		
     </body>
