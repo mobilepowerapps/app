@@ -36,7 +36,7 @@
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-            app.initialize();
+//            app.initialize();
 		
         </script>
 <script>
@@ -91,7 +91,7 @@ var cache = {
 			function(fileSystem) { 
 				var fname = fileSystem.root.fullPath + "/" + cache.dir + "/" + f ;
 				consolelog("getfile:"+fname);
-				fileSystem.root.getfile(
+				fileSystem.root.getFile(
 					fname,
 					{create: false}, 
 					function( f ){ // success
@@ -110,7 +110,6 @@ var cache = {
 								consolelog("Download Err: "+ url);
 							}
 						);
-
 						consolelog("Error creating directory "+err.code); 
 					}
 				); 
@@ -129,7 +128,7 @@ function test( file ) {
 	alert("test: "+file) ;
 	try {
 		cache.findFile( file );
-	} catch (e ) {
+	} catch ( e ) {
 		consolelog("Err: "+e);
 	};
 }
