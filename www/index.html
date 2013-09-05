@@ -63,10 +63,12 @@ function mediaCache( f, cb ) {
 // get persistent path
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
 		var fileName = fs.root.fullPath + f ; 
+		consolelog( fileName ) ;
 		var reader = new FileReader();
 		reader.onloadend = function(evt) {
 			if(evt.target.result == null) {
 				// not saved so try to get it
+				consolelog("not found") ;
 				var fileTransfer = new FileTransfer();
 				fileTransfer.download(url, mediaPath, function (entry) {
 					consolelog("Download: "+ entry.fullPath);
