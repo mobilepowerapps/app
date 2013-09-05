@@ -58,14 +58,19 @@ function XmediaCache( f, cb ) {
 }
 
 var cache = {
-	uri: "file:///mnt/sdcard/cpt/",
+//	uri: "file:///mnt/sdcard/cpt",	// file url should be on android
+	url: "http://cpt.aws.af.cm",	// web server
+	dir: "cpt",					// dir for sdcard
 	
 	// get or create directory if not there
 	initialize: function() {
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+		window.requestFileSystem(
+			LocalFileSystem.PERSISTENT,
+			0, 
 			function(fileSystem) { 
-				var entry=fileSystem.root; 
-				entry.getDirectory("example", {create: true, exclusive: false}, 
+				fileSystem.root.getDirectory(
+					cache.dir,
+					{create: true, exclusive: false}, 
 					function( dir ){ // cb success
 						consolelog("Created dir "+dir.name); 
 					},
@@ -78,8 +83,39 @@ var cache = {
 		},
 
 	// dose file exist
-	fileExist: function( f ){
+	findFile: function( f ){
+		var url = cache.url + "/" + f ;
+		window.requestFileSystem(
+			LocalFileSystem.PERSISTENT,
+			0, 
+			function(fileSystem) { 
+				var fname = fileSystem.root.fullPath + "/" + cache.dir + "/" + f ;
+				fileSystem.root.getfile(
+					fname,
+					{create: false}, 
+					function( f ){ // success
+						consolelog("in cache "+f.name); 
+					},
+					function( err ){ // fail not in cache
+						var ft = new FileTransfer();
+						ft.download(
+							url,
+							fname,
+							function (entry) { // success
+								consolelog("Download: "+ entry.fullPath);
+							},
+							function (error) {
+								consolelog("Download Err: "+ url);
+							}
+						);
+
+						consolelog("Error creating directory "+err.code); 
+					}
+				); 
+			},
+			null); 
 		}
+
 	
 } ;
 
@@ -90,7 +126,7 @@ function test( file ) {
 	cache.initialize() ;
 	alert("test: "+file) ;
 	try {
-		XmediaCache( file, function(f) { alert("mediaCache="+f ); });
+		cache.findFile( file );
 	} catch (e ) {
 		consolelog("Err: "+e);
 	};
