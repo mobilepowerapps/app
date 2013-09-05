@@ -90,6 +90,7 @@ var cache = {
 			0, 
 			function(fileSystem) { 
 				var fname = fileSystem.root.fullPath + "/" + cache.dir + "/" + f ;
+				consolelog("getfile:"+fname);
 				fileSystem.root.getfile(
 					fname,
 					{create: false}, 
@@ -123,7 +124,7 @@ var cache = {
 
 
 function test( file ) {
-	cache.initialize() ;
+
 	alert("test: "+file) ;
 	try {
 		cache.findFile( file );
@@ -138,6 +139,9 @@ Hello there<br>
 <button onclick="test('hooray.mp3');">Load hooray.mp3</button><br>
 <button onclick="test('workout.mp4');">Load workout.mp4</button><br>
 <button onclick="test('jnk.mp3');">Load jnk.mp3</button><br>
+<br>
+<br>
+<button onclick="cache.initialize();">Initialize</button><br>
 <div id="mess"></div>
 		
 		
