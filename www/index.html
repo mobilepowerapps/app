@@ -57,41 +57,40 @@ function XmediaCache( f, cb ) {
 	consolelog("done");
 }
 
+var cache = {
+	uri: "file:///mnt/sdcard/cpt/",
+	
+	// get or create directory if not there
+	initialize: function() {
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+			function(fileSystem) { 
+				var entry=fileSystem.root; 
+				entry.getDirectory("example", {create: true, exclusive: false}, 
+					function( dir ){ // cb success
+						consolelog("Created dir "+dir.name); 
+					},
+					function( err ) { //cb fail
+						consolelog("Error creating directory "+err.code); 
+					}
+					); 
+			},
+			null); 
+		},
 
-function mediaCache( f, cb ) {
-	var url = "http://cpt.aws.af.cm/" + f ;
-// get persistent path
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
-		var fileName = fs.root.fullPath +"/"+ f ; 
-		consolelog( fileName ) ;
-		var reader = new FileReader();
-		reader.onloadend = function(evt) {
-			if(evt.target.result == null) {
-				// not saved so try to get it
-				consolelog("not found") ;
-				var fileTransfer = new FileTransfer();
-				fileTransfer.download(url, mediaPath, function (entry) {
-					consolelog("Download: "+ entry.fullPath);
-				}, function (error) {
-					consolelog("Download Err: "+ url);
-					});
-				// return get it from server
-				cb( url );
-			} else {
-				// Otherwise the file that exists
-				cb( fileName ) ;
-			}         
-		};
-		reader.readAsDataURL(fileName);
-		
-	});
+	// dose file exist
+	fileExist: function( f ){
+		}
+	
+} ;
 
-}
+
+
 
 function test( file ) {
+	cache.initialize() ;
 	alert("test: "+file) ;
 	try {
-		mediaCache( file, function(f) { alert("mediaCache="+f ); });
+		XmediaCache( file, function(f) { alert("mediaCache="+f ); });
 	} catch (e ) {
 		consolelog("Err: "+e);
 	};
@@ -103,7 +102,7 @@ Hello there<br>
 <button onclick="test('hooray.mp3');">Load hooray.mp3</button><br>
 <button onclick="test('workout.mp4');">Load workout.mp4</button><br>
 <button onclick="test('jnk.mp3');">Load jnk.mp3</button><br>
-<p id="mess"></p>
+<div id="mess"></div>
 		
 		
     </body>
