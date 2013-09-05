@@ -62,7 +62,7 @@ function mediaCache( f, cb ) {
 	var url = "http://cpt.aws.af.cm/" + f ;
 // get persistent path
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
-		var fileName = fs.root.fullPath + f ; 
+		var fileName = fs.root.fullPath +"/"+ f ; 
 		consolelog( fileName ) ;
 		var reader = new FileReader();
 		reader.onloadend = function(evt) {
