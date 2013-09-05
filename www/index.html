@@ -84,7 +84,7 @@ var cache = {
 
 	// dose file exist
 	findFile: function( f ){
-		var url = cache.url + "/" + f ;
+		var url = encodeURI( cache.url + "/" + f ) ;
 		window.requestFileSystem(
 			LocalFileSystem.PERSISTENT,
 			0, 
@@ -98,6 +98,7 @@ var cache = {
 						consolelog("in cache "+f.name); 
 					},
 					function( err ){ // fail not in cache
+						consolelog("ft:"+url) ;
 						var ft = new FileTransfer();
 						ft.download(
 							url,
